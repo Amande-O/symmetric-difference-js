@@ -132,6 +132,16 @@ input[type=submit] {
     text-align: center;
 }
 
+.message__limit {
+    color: var(--bg-color-tertiary);
+    font-weight: bold;
+    background-color: #a70000;
+    padding: 2rem;
+    margin-top: 5rem;
+    border-radius: 5px;
+    text-align: center;
+}
+
 footer {
     position: absolute;
     bottom: 0;
