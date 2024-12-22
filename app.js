@@ -81,6 +81,8 @@ function addNewSet(e){
 		let newInput = document.createElement('input');
 		newInput.setAttribute('type', 'text');
 		newInput.classList.add('input__text');
+		newLabel.setAttribute('for', `set${setName}`);
+		newInput.setAttribute('id', `set${setName}`);
 		newInput.setAttribute('placeholder', `Saisir ici l'ensemble ${setName}`);
 		let contentLabel = document.createTextNode(`Saisie de l'ensemble ${setName}: `);
 		newLabel.appendChild(contentLabel);
