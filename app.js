@@ -12,8 +12,10 @@ let args = [];
 let messageInput;
 let dataEmpty;
 let dataNaN;
+let dataLimit;
 let errorMessageEmpty;
 let errorMessageNaN;
+let errorMessageLimit;
 
 btnAdd.addEventListener('click', addNewSet);
 submitBtn.addEventListener('click', showSymDiff);
@@ -29,18 +31,19 @@ allInputText.forEach(element => element.addEventListener('input', () => {
 function checkData(element) {
 	try {
 		messageInput = document.querySelector(`.message__error--${element.id}`);
+		checkNumberElements(element);
 		checkIfEmpty(element);
 		checkIsNaN(element);
-		if (!dataEmpty && !dataNaN) {
+		if (!dataEmpty && !dataNaN && !dataLimit) {
 			element.classList.remove('error');
 			if (messageInput) {
 				messageInput.remove();
 			}
 		} else {
-			throw new Error(`l'ensemble est ou un élement n'est pas un nombre`);
+			throw new Error("l'ensemble est vide ou un élement n'est pas un nombre");
 		}
 	} catch {
-		if (dataEmpty || dataNaN) {
+		if (dataEmpty || dataNaN || dataLimit) {
 			element.classList.add('error');
 			if (messageInput === null) {
 				let message = document.createElement('span');
@@ -50,6 +53,22 @@ function checkData(element) {
 				insertErrorMessage(messageInput);
 			}
 		}
+	}
+}
+
+/**
+ * checks if the number of elements
+ * @param {*} element
+ */
+function checkNumberElements(element) {
+	if (element.value.length > 50) {
+		dataLimit = true;
+		errorMessageLimit = "Le nombre de caractères est limité à 50";
+	} else if (element.value.length === 50) {
+		dataLimit = true;
+		errorMessageLimit = "Nombre maximum de caractères possible par ensemble atteint (50). Ajout supplémentaire impossible."
+	} else {
+		dataLimit = false;
 	}
 }
 
@@ -88,7 +107,9 @@ function checkIsNaN(element) {
 }
 
 function insertErrorMessage(span) {
-	if (dataEmpty) {
+	if (dataLimit) {
+		span.textContent = errorMessageLimit;
+	} else if (dataEmpty) {
 		span.textContent = errorMessageEmpty;
 	} else if (dataNaN) {
 		span.textContent = errorMessageNaN;
@@ -112,6 +133,8 @@ function showSymDiff(e){
 			errMess = "impossible de diviser par 0";
 		} else if (error.message === "NaN") {
 			errMess = "Un des élements n'est pas un nombre";
+		} else if (error.message === "trop de caractères") {
+			errMess = "Le nombre de caractères par ensemble est limité à 50.";
 		}
 		addNewElement(divErrorMess, ['message__error'], errMess, mainSection, false);
 	}
@@ -135,6 +158,9 @@ function addAllSetsInArray(){
 	const allSet = document.querySelectorAll('.input__text');
 	args = [];
 	allSet.forEach((element) => {
+		if (element.value.length > 50){
+			throw new Error("trop de caractères");
+		}
 		let valuesInt = element.value.split(",").map(el => convertToNumber(el));
 		args.push(valuesInt);
 	})
@@ -269,6 +295,7 @@ function addSetName(nbInputText) {
  * @param {HTMLElement} referenceNode referenceNode | false si you use "appendchild"
  */
 function addNewElement(element, className, text, parent, referenceNode) {
+	element.setAttribute('maxlength', '50');
 	if (className != false) {
 		className.forEach(el => {element.classList.add(el)});
 	}
