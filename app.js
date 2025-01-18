@@ -1,6 +1,7 @@
 const submitBtn = document.querySelector('#submit');
 const mainSection = document.querySelector('main');
 const btnAdd = document.querySelector('#btn-Add');
+const btnReset = document.querySelector('#btn-Reset');
 const form = document.querySelector('form');
 const sectionBtn = document.querySelector('.section__btn');
 let allInputText = document.querySelectorAll('.input__text');
@@ -16,9 +17,11 @@ let dataLimit;
 let errorMessageEmpty;
 let errorMessageNaN;
 let errorMessageLimit;
+const url = location.pathname;
 
 btnAdd.addEventListener('click', addNewSet);
 submitBtn.addEventListener('click', showSymDiff);
+btnReset.addEventListener('click', resetForm);
 
 allInputText.forEach(element => element.addEventListener('blur', () => {
 	checkData(element);
@@ -28,6 +31,39 @@ allInputText.forEach(element => element.addEventListener('input', () => {
 	checkData(element);
 }));
 
+/**
+ * resets the form
+ */
+function resetForm() {
+	allInputText = document.querySelectorAll('.input__text');
+	allLabel = document.querySelectorAll('label');
+	let formErrorMess = document.querySelectorAll('.form__message--error');
+	deleteElement(messageLimitAddSet);
+	deleteElement(divErrorMess);
+	formErrorMess.forEach(element => {
+		element.remove();
+	});
+	allInputText.forEach(element => {
+		if (element.id != "setA" && element.id !="setB") {
+			element.remove();
+			allLabel.forEach(el => {
+				if (el.getAttribute('for') === `${element.id}`) {
+					el.remove();
+				}
+			})
+		}
+		element.value = "";
+		element.classList.remove('error');
+	})
+	if(divResult){
+		divResult.remove();
+	}
+}
+
+/**
+ * checks values of elements
+ * @param {*} element 
+ */
 function checkData(element) {
 	try {
 		messageInput = document.querySelector(`.message__error--${element.id}`);
@@ -47,7 +83,7 @@ function checkData(element) {
 			element.classList.add('error');
 			if (messageInput === null) {
 				let message = document.createElement('span');
-				addNewElement(message, [`message__error--${element.id}`, 'message__error'], false, form, element);
+				addNewElement(message, [`message__error--${element.id}`, 'form__message--error'], false, form, element);
 				insertErrorMessage(message);
 			} else {
 				insertErrorMessage(messageInput);
@@ -57,7 +93,7 @@ function checkData(element) {
 }
 
 /**
- * checks if the number of elements
+ * checks the number of elements
  * @param {*} element
  */
 function checkNumberElements(element) {
@@ -202,6 +238,7 @@ function showDivResult(resultSymDiff){
 		pResult.id = "result";
 	}
 	pResult.textContent = resultSymDiff;
+	location.assign(`${url}#result`);
 }
 
 /**
@@ -251,6 +288,7 @@ function addNewSet(e){
 		newInput.addEventListener('blur', () => {
 			checkData(newInput);
 		})
+		location.assign(`${url}#btn-Add`);
 	}
 }
 
@@ -268,7 +306,7 @@ function limitInputAddSet() {
 			throw new Error("Impossible d'ajouter plus de 5 ensembles");
 		}
 	} catch {
-		if (messageLimitAddSet == null) {
+		if (messageLimitAddSet === null || messageLimitAddSet.parentNode === null) {
 			messageLimitAddSet = document.createElement('p');
 			let textAddSet = "Ajout supplémentaire impossible. Dans cet exemple, le nombre d'ensembles est limité à 5.";
 			addNewElement(messageLimitAddSet, ['message__limit'], textAddSet, form, sectionBtn);
@@ -302,9 +340,5 @@ function addNewElement(element, className, text, parent, referenceNode) {
 	if (text != false) {
 		element.textContent = text;
 	}
-	if (referenceNode === false) {
-		parent.appendChild(element);
-	} else {
-		parent.insertBefore(element, referenceNode);
-	}
+	(referenceNode === false) ? parent.appendChild(element) : parent.insertBefore(element, referenceNode);
 }

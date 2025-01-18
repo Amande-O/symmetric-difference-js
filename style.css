@@ -3,6 +3,7 @@
     --bg-color-secondary: #ffe200;
     --bg-color-tertiary: #fff;
     --bg-color-quaternary: #a70000;
+    --bg-color-quinary: #252525;
     --font-family-main: 'Courier New', Courier, monospace;
 }
 
@@ -63,6 +64,11 @@ section, header {
     text-align: justify;
 }
 
+.section__reset {
+    display: flex;
+    justify-content: center;
+}
+
 .section__btn {
     display: flex;
     flex-direction: column-reverse;
@@ -117,6 +123,12 @@ button:hover, input[type=submit]:hover {
     transform : scale(0.95);
 }
 
+#btn-Reset {
+    background-color: var(--bg-color-quinary);
+    border: 2px solid var(--bg-color-quinary);
+    color: var(--bg-color-secondary);
+}
+
 input[type=submit] {
     border: 2px solid var(--bg-color-secondary);
     background: var(--bg-color-secondary);
@@ -144,7 +156,7 @@ input[type=submit] {
     text-align: center;
 }
 
-.message__limit, .message__error {
+.message__limit, .message__error, .form__message--error {
     color: var(--bg-color-tertiary);
     font-weight: bold;
     padding: 2rem;
@@ -157,7 +169,7 @@ input[type=submit] {
     background-color: var(--bg-color-tertiary);
     color: var(--bg-color-quaternary);
 }
-.message__error {
+.message__error, .form__message--error {
     margin: 2rem;
     background-color: var(--bg-color-quaternary);
 }
