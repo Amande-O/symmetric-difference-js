@@ -2,6 +2,8 @@
     --bg-color-primary: #377e9b;
     --bg-color-secondary: #ffe200;
     --bg-color-tertiary: #fff;
+    --bg-color-quaternary: #a70000;
+    --bg-color-quinary: #252525;
     --font-family-main: 'Courier New', Courier, monospace;
 }
 
@@ -28,6 +30,16 @@ h1 {
     font-size: 2.6rem;
 }
 
+a {
+    color: var(--bg-color-tertiary);
+    text-underline-offset: 5px;
+}
+
+a:hover {
+    color: initial;
+    font-weight: bold;
+}
+
 main {
     width: 100%;
     display: flex;
@@ -52,11 +64,17 @@ section, header {
     text-align: justify;
 }
 
+.section__reset {
+    display: flex;
+    justify-content: center;
+}
+
 .section__btn {
     display: flex;
     flex-direction: column-reverse;
     justify-content: space-between;
     margin-top: 6rem;
+    margin-bottom: 2rem;
 }
 
 .span__text--bold{
@@ -105,6 +123,12 @@ button:hover, input[type=submit]:hover {
     transform : scale(0.95);
 }
 
+#btn-Reset {
+    background-color: var(--bg-color-quinary);
+    border: 2px solid var(--bg-color-quinary);
+    color: var(--bg-color-secondary);
+}
+
 input[type=submit] {
     border: 2px solid var(--bg-color-secondary);
     background: var(--bg-color-secondary);
@@ -116,10 +140,15 @@ input[type=submit] {
     color: initial;
     font-weight: bold;
     background: var(--bg-color-tertiary);
-    margin: 5rem;
+    margin-bottom: 4rem;
     padding: 2rem;
     border-radius: 5px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+::placeholder {
+    font-size: 1.2rem;
+    font-style: italic;
 }
 
 .section__result > p{
@@ -127,14 +156,33 @@ input[type=submit] {
     text-align: center;
 }
 
+.message__limit, .message__error, .form__message--error {
+    color: var(--bg-color-tertiary);
+    font-weight: bold;
+    padding: 2rem;
+    margin-top: 5rem;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.message__limit {
+    background-color: var(--bg-color-tertiary);
+    color: var(--bg-color-quaternary);
+}
+.message__error, .form__message--error {
+    margin: 2rem;
+    background-color: var(--bg-color-quaternary);
+}
+
 footer {
     position: absolute;
     bottom: 0;
     text-align: center;
+    padding-bottom: 4rem;
 }
 
-footer p {
-    margin: 1rem;
+.error {
+    border: 3px solid var(--bg-color-quaternary);
 }
 
 @media (min-width: 750px) {
