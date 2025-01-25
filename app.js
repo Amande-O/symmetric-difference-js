@@ -35,10 +35,10 @@ btnReset.addEventListener('touchend', deleteHoverEffect);
  * deletes click effect
  */
 async function deleteHoverEffect(){
-    await new Promise(resolve => setTimeout(resolve, 100))
-    btnAdd.classList.remove('hover-effect');
-    submitBtn.classList.remove('hover-effect');
-    btnReset.classList.remove('hover-effect');
+    	await new Promise(resolve => setTimeout(resolve, 100));
+    	btnAdd.classList.remove('hover-effect');
+    	submitBtn.classList.remove('hover-effect');
+    	btnReset.classList.remove('hover-effect');
 }
 
 allInputText.forEach(element => element.addEventListener('blur', () => {
