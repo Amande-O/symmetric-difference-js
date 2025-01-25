@@ -23,6 +23,24 @@ btnAdd.addEventListener('click', addNewSet);
 submitBtn.addEventListener('click', showSymDiff);
 btnReset.addEventListener('click', resetForm);
 
+// Click Effect (mobile)
+btnAdd.addEventListener('touchstart', () => {btnAdd.classList.add('hover-effect')});
+submitBtn.addEventListener('touchstart', () => {submitBtn.classList.add('hover-effect')});
+btnReset.addEventListener('touchstart', () => {btnReset.classList.add('hover-effect')});
+btnAdd.addEventListener('touchend', deleteHoverEffect);
+submitBtn.addEventListener('touchend', deleteHoverEffect);
+btnReset.addEventListener('touchend', deleteHoverEffect);
+
+/**
+ * deletes click effect
+ */
+async function deleteHoverEffect(){
+    await new Promise(resolve => setTimeout(resolve, 100))
+    btnAdd.classList.remove('hover-effect');
+    submitBtn.classList.remove('hover-effect');
+    btnReset.classList.remove('hover-effect');
+}
+
 allInputText.forEach(element => element.addEventListener('blur', () => {
 	checkData(element);
 }));
@@ -35,6 +53,8 @@ allInputText.forEach(element => element.addEventListener('input', () => {
  * resets the form
  */
 function resetForm() {
+	btnReset.classList.add('hover-effect');
+	deleteHoverEffect();
 	allInputText = document.querySelectorAll('.input__text');
 	allLabel = document.querySelectorAll('label');
 	let formErrorMess = document.querySelectorAll('.form__message--error');
@@ -158,6 +178,8 @@ function insertErrorMessage(span) {
 function showSymDiff(e){
 	try {
 		e.preventDefault();
+		submitBtn.classList.add('hover-effect');
+		deleteHoverEffect();
 		deleteElement(divErrorMess, divResult, messageLimitAddSet);
 		addAllSetsInArray();
 		let resultSymDiff = symDiff(args);
@@ -273,6 +295,8 @@ function checkIsNumberAndAdd(result, el){
  */
 function addNewSet(e){
 	e.preventDefault();
+	btnAdd.classList.add('hover-effect');
+	deleteHoverEffect();
 	if(!limitInputAddSet()){
 		let newLabel = document.createElement('label');
 		let newInput = document.createElement('input');
